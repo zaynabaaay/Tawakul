@@ -399,6 +399,16 @@
       if (hideLast(slide)) { e.preventDefault(); e.stopPropagation(); }
     }
   }, true);
+  const INTERACTIVE_SEL = 'button,a,input,textarea,select,image-slot,[contenteditable]';
+  window.addEventListener('click', (e) => {
+    const slide = activeSlide();
+    if (!slide || !buildItems(slide).length) return;
+    if (e.composedPath().some((n) => n.matches && n.matches(INTERACTIVE_SEL))) return;
+    if (!slide.contains(e.target)) return;
+    const mid = window.innerWidth / 2;
+    const advanced = e.clientX < mid ? hideLast(slide) : showNext(slide);
+    if (advanced) { e.preventDefault(); e.stopPropagation(); }
+  }, true);
   document.addEventListener('slidechange', (e) => {
     const slide = e.detail && e.detail.slide;
     if (!slide) return;
