@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --night: #08251F;
+    --night2: #031412;
+    --emerald: #1F5C4C;
+    --emerald2: #0E3A30;
+    --leaf: #3E8E72;
+    --gold: #E3B85C;
+    --cream: #F4ECD8;
+    --water: #7FD8C9;
+    --serif: 'Cambria', 'Bookman Old Style', Georgia, 'Times New Roman', serif;
+    --sans: 'Calibri', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  @keyframes shimmer { 0%,100%{opacity:.25} 50%{opacity:.85} }
+  @keyframes drift { 0%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-22px) translateX(10px)} 100%{transform:translateY(0) translateX(0)} }
+  @keyframes flow { 0%{background-position:0 0} 100%{background-position:400px 0} }
+  .rays { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+  .rays::before {
+    content:""; position:absolute; top:-20%; left:50%; width:1400px; height:1400px; transform:translateX(-50%);
+    background:radial-gradient(circle at 50% 0%, rgba(227,184,92,.35), rgba(227,184,92,0) 60%);
+    animation:shimmer 5s ease-in-out infinite;
+  }
+  .motes { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+  .motes::before {
+    content:""; position:absolute; width:6px; height:6px; border-radius:50%; background:var(--gold); opacity:.7;
+    box-shadow:160px 120px var(--gold),420px 260px var(--gold),700px 90px var(--gold),940px 320px var(--gold),1180px 160px var(--gold),1420px 280px var(--gold),1640px 110px var(--gold),260px 460px var(--gold),560px 540px var(--gold),900px 480px var(--gold),1300px 540px var(--gold),1700px 470px var(--gold);
+    animation:drift 7s ease-in-out infinite;
+  }
+  .river { position:absolute; left:0; right:0; height:140px; background:linear-gradient(90deg, rgba(127,216,201,.18), rgba(127,216,201,.45), rgba(127,216,201,.18)); background-size:400px 100%; animation:flow 6s linear infinite; }
+  .pd-build { opacity:0; transform:translateY(16px); transition:opacity .4s ease, transform .4s ease; }
+  .pd-build.pd-build-shown { opacity:1; transform:translateY(0); }
+  @media print { .pd-build { opacity:1 !important; transform:none !important; } }
+  .pd-card { background:rgba(244,236,216,.96); border-radius:14px; padding:26px 32px; box-shadow:0 12px 30px rgba(3,20,18,.25); }
+  .pd-card-title { font-family:var(--serif); font-size:30px; color:var(--emerald2); margin-bottom:4px; }
+  .pd-card-body { font-size:27px; line-height:1.4; color:#4a4438; }
+  .pd-card-line { font-family:var(--serif); font-size:29px; line-height:1.4; color:var(--emerald2); }
+</style>
+</helmet>
+<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
+
+<section data-label="01 Title" data-screen-label="01 Title" data-speaker-notes="Welcome slide. The theme is Paradise — Jannah — the eternal garden promised to the believers. Set an immersive, reverent tone before moving into description."
+  style="width:100%;height:100%;background:radial-gradient(circle at 50% -10%, var(--emerald) 0%, var(--night) 55%, var(--night2) 100%);font-family:var(--sans);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+  <div class="rays"></div>
+  <div class="motes"></div>
+  <div style="position:relative;z-index:2;font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:24px;">Islamic Studies · The Hereafter</div>
+  <div style="position:relative;z-index:2;font-family:var(--serif);font-size:104px;line-height:1;color:#fff;font-weight:700;letter-spacing:-1px;text-align:center;">Paradise</div>
+  <div style="position:relative;z-index:2;font-family:var(--serif);font-size:44px;line-height:1.15;color:var(--water);font-style:italic;margin-top:14px;text-align:center;">Jannah — The Eternal Garden</div>
+  <div style="position:relative;z-index:2;width:120px;height:3px;background:var(--gold);margin:36px 0 0;"></div>
+</section>
+
+<section data-label="02 What Is Jannah" data-screen-label="02 What Is Jannah" data-speaker-notes="Define Jannah linguistically and theologically. Root j-n-n means to conceal or cover — a garden so dense with trees it conceals the ground. Theologically, it is the eternal abode of reward prepared by Allah for the believers."
+  style="width:100%;height:100%;background:var(--cream);font-family:var(--sans);color:var(--emerald2);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1;padding:96px 130px 80px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--leaf);margin-bottom:18px;">The Meaning</div>
+    <h1 style="font-family:var(--serif);font-size:64px;font-weight:700;margin:0 0 34px;color:var(--emerald2);">What Is Jannah?</h1>
+    <div style="display:flex;flex-direction:column;gap:20px;width:100%;max-width:1000px;">
+      <div class="pd-build pd-card">
+        <div class="pd-card-title">Root: <span dir="rtl">ج ن ن</span></div>
+        <div class="pd-card-body">To conceal or cover — a garden so dense with trees its ground is hidden from view.</div>
+      </div>
+      <div class="pd-build pd-card">
+        <div class="pd-card-title">Jannah (<span dir="rtl">الجنة</span>)</div>
+        <div class="pd-card-body">The eternal garden of reward, prepared by Allah for those who believed and did good.</div>
+      </div>
+      <div class="pd-build pd-card">
+        <div class="pd-card-title">A Promise, Not a Metaphor</div>
+        <div class="pd-card-body">Described throughout the Qur'an as a real, eternal place — not merely a symbol of happiness.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-label="03 Vastness" data-screen-label="03 Vastness" data-speaker-notes="Describe the sheer scale of Paradise. The Quran says its width is as the heavens and the earth. It sits above the seven heavens, beneath the Throne of Allah."
+  style="width:100%;height:100%;background:var(--cream);font-family:var(--sans);color:var(--emerald2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 130px;overflow:hidden;position:relative;">
+  <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--leaf);margin-bottom:30px;">A Garden Beyond Measure</div>
+  <p style="font-family:var(--serif);font-size:48px;font-style:italic;line-height:1.45;text-align:center;color:var(--emerald2);margin:0 0 28px;max-width:1300px;">"Its width is like the width of the heavens and the earth, prepared for those who believe in Allah and His messengers."</p>
+  <div style="font-size:26px;color:#6b6354;letter-spacing:1px;">Surah Al-Hadid · 57:21</div>
+</section>
+
+<section data-label="04 Eight Gates" data-screen-label="04 Eight Gates" data-speaker-notes="Mention the eight gates of Paradise, each named for a category of righteous deed — prayer, charity, fasting, jihad — and that whoever excels in all of them may be called from every gate."
+  style="width:100%;height:100%;background:var(--cream);font-family:var(--sans);color:var(--emerald2);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1;padding:90px 130px 80px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--leaf);margin-bottom:14px;">The Gates</div>
+    <h1 style="font-family:var(--serif);font-size:58px;font-weight:700;margin:0 0 28px;color:var(--emerald2);">Eight Gates of Paradise</h1>
+    <div style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:1000px;">
+      <div class="pd-build pd-card"><div class="pd-card-line">Each gate is named for a category of righteous deed — prayer, charity, fasting, jihad, and more.</div></div>
+      <div class="pd-build pd-card"><div class="pd-card-line">Whoever excels in all of them may be called to enter from any gate they choose.</div></div>
+      <div class="pd-build pd-card"><div class="pd-card-line">One gate, Ar-Rayyan, is reserved only for those who fasted.</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-label="05 Al-Firdaus" data-screen-label="05 Al-Firdaus" data-speaker-notes="The highest level of Paradise is Al-Firdaus, directly beneath the Throne of Allah. The Prophet taught that when asking Allah for Paradise, ask for the highest, Al-Firdaus al-A'la."
+  style="width:100%;height:100%;background:radial-gradient(circle at 50% -10%, var(--emerald) 0%, var(--night) 55%, var(--night2) 100%);font-family:var(--sans);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 130px;overflow:hidden;position:relative;">
+  <div class="rays"></div>
+  <div class="motes"></div>
+  <div style="position:relative;z-index:2;font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:30px;">The Highest Level</div>
+  <h1 style="position:relative;z-index:2;font-family:var(--serif);font-size:66px;font-weight:700;margin:0 0 30px;color:#fff;text-align:center;">Al-Firdaus al-A'la</h1>
+  <p style="position:relative;z-index:2;font-family:var(--serif);font-size:38px;font-style:italic;line-height:1.5;text-align:center;color:var(--water);margin:0 0 18px;max-width:1200px;">"When you ask Allah for Paradise, ask Him for Al-Firdaus, for it is the highest part of Paradise, in the middle of Paradise, and from it spring the rivers of Paradise."</p>
+  <div style="position:relative;z-index:2;font-size:24px;color:#cfd9c7;letter-spacing:1px;">Sahih al-Bukhari</div>
+</section>
+
+<section data-label="06 The Rivers" data-screen-label="06 The Rivers" data-speaker-notes="Describe the four rivers of Paradise from Surah Muhammad 47:15 — water unaltered, milk unchanging in taste, wine delicious to drink, and purified honey."
+  style="width:100%;height:100%;background:var(--cream);font-family:var(--sans);color:var(--emerald2);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1;padding:90px 130px 70px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--leaf);margin-bottom:14px;">What Flows Within It</div>
+    <h1 style="font-family:var(--serif);font-size:58px;font-weight:700;margin:0 0 28px;color:var(--emerald2);">The Rivers of Paradise</h1>
+    <div style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:1000px;">
+      <div class="pd-build pd-card"><div class="pd-card-line">Rivers of water that never spoils.</div></div>
+      <div class="pd-build pd-card"><div class="pd-card-line">Rivers of milk, its taste unchanging.</div></div>
+      <div class="pd-build pd-card"><div class="pd-card-line">Rivers of wine, delicious to those who drink.</div></div>
+      <div class="pd-build pd-card"><div class="pd-card-line">Rivers of purified honey.</div></div>
+    </div>
+  </div>
+  <div class="river" style="bottom:0;"></div>
+</section>
+
+<section data-label="07 No Fatigue No Sorrow" data-screen-label="07 No Fatigue" data-speaker-notes="Describe the freedom from hardship in Paradise — no fatigue, no sorrow, no death, eternal youth and rest. Drawing from several Quranic verses describing the people of Paradise."
+  style="width:100%;height:100%;background:var(--cream);font-family:var(--sans);color:var(--emerald2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 130px;overflow:hidden;position:relative;">
+  <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--leaf);margin-bottom:26px;">Freed From Every Hardship</div>
+  <div style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:1000px;">
+    <div class="pd-build pd-card" style="text-align:center;"><div class="pd-card-line">No fatigue will touch them there, nor will they be removed from it.</div></div>
+    <div class="pd-build pd-card" style="text-align:center;"><div class="pd-card-line">No fear, no grief — only peace.</div></div>
+    <div class="pd-build pd-card" style="text-align:center;"><div class="pd-card-line">No sickness, no old age, no death — life everlasting.</div></div>
+  </div>
+</section>
+
+<section data-label="08 No Eye Has Seen" data-screen-label="08 No Eye Has Seen" data-speaker-notes="The famous hadith describing Paradise as beyond imagination — what no eye has seen, no ear has heard, no heart has conceived."
+  style="width:100%;height:100%;background:radial-gradient(circle at 50% -10%, var(--emerald) 0%, var(--night) 55%, var(--night2) 100%);font-family:var(--sans);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 130px;overflow:hidden;position:relative;">
+  <div class="rays"></div>
+  <div class="motes"></div>
+  <div style="position:relative;z-index:2;font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:30px;">Beyond Imagination</div>
+  <p style="position:relative;z-index:2;font-family:var(--serif);font-size:46px;font-style:italic;line-height:1.5;text-align:center;color:#fff;margin:0 0 24px;max-width:1300px;">"Allah says: I have prepared for My righteous servants that which no eye has seen, no ear has heard, and no heart has imagined."</p>
+  <div style="position:relative;z-index:2;font-size:24px;color:#cfd9c7;letter-spacing:1px;">Sahih al-Bukhari, Sahih Muslim</div>
+</section>
+
+<section data-label="09 The People of Paradise" data-screen-label="09 The People" data-speaker-notes="Describe who enters Paradise: those who believed, feared their Lord, and did good. Connect back to the lived reality of faith and deeds, not mere wishful belief."
+  style="width:100%;height:100%;background:var(--cream);font-family:var(--sans);color:var(--emerald2);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1;padding:90px 130px 80px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--leaf);margin-bottom:14px;">Who Enters</div>
+    <h1 style="font-family:var(--serif);font-size:58px;font-weight:700;margin:0 0 28px;color:var(--emerald2);">The People of Paradise</h1>
+    <div style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:1000px;">
+      <div class="pd-build pd-card"><div class="pd-card-line">Those who believed in Allah and His messengers.</div></div>
+      <div class="pd-build pd-card"><div class="pd-card-line">Those who feared their Lord, unseen, and turned to Him in repentance.</div></div>
+      <div class="pd-build pd-card"><div class="pd-card-line">Those who did good and remained patient through hardship.</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-label="10 The Greatest Reward" data-screen-label="10 The Greatest" data-speaker-notes="The greatest reward of Paradise, beyond the gardens and rivers, is seeing the Face of Allah. This is the ultimate, unmatched joy of the believers."
+  style="width:100%;height:100%;background:radial-gradient(circle at 50% -10%, var(--emerald) 0%, var(--night) 55%, var(--night2) 100%);font-family:var(--sans);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 130px;overflow:hidden;position:relative;">
+  <div class="rays"></div>
+  <div class="motes"></div>
+  <div style="position:relative;z-index:2;font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:30px;">Beyond the Gardens</div>
+  <h1 style="position:relative;z-index:2;font-family:var(--serif);font-size:58px;font-weight:700;margin:0 0 30px;color:#fff;text-align:center;">The Greatest Reward</h1>
+  <p style="position:relative;z-index:2;font-family:var(--serif);font-size:42px;font-style:italic;line-height:1.5;text-align:center;color:var(--water);margin:0;max-width:1200px;">For those who do good is the best reward — and even more. Beyond every garden and river, the believers' greatest joy is seeing the Face of their Lord.</p>
+</section>
+
+<section data-label="11 Taking the Path" data-screen-label="11 Taking the Path" data-speaker-notes="Close with application: belief, sincere worship, good character, patience, and du'a. Paradise is attained through both faith and action, echoing the same balance taught about tawakkul."
+  style="width:100%;height:100%;background:var(--cream);font-family:var(--sans);color:var(--emerald2);display:flex;flex-direction:column;padding:84px 130px 70px;overflow:hidden;position:relative;">
+  <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--leaf);margin-bottom:14px;">Putting It Into Practice</div>
+  <h1 style="font-family:var(--serif);font-size:56px;font-weight:700;margin:0 0 30px;color:var(--emerald2);">Taking the Path to Paradise</h1>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:900px;margin:0 auto;width:100%;">
+    <div class="pd-build pd-card"><div class="pd-card-line">Believe sincerely in Allah and the Last Day.</div></div>
+    <div class="pd-build pd-card"><div class="pd-card-line">Worship Allah alone and follow the Prophet's&nbsp;ﷺ guidance.</div></div>
+    <div class="pd-build pd-card"><div class="pd-card-line">Do good, be patient through hardship, and seek forgiveness often.</div></div>
+    <div class="pd-build pd-card"><div class="pd-card-line">Ask Allah for Al-Firdaus, the highest garden.</div></div>
+  </div>
+  <div style="margin-top:30px;background:rgba(227,184,92,.18);border:1px solid rgba(227,184,92,.5);border-radius:16px;padding:28px 40px;max-width:900px;margin-left:auto;margin-right:auto;text-align:center;">
+    <div style="font-family:var(--sans);font-size:22px;letter-spacing:3px;text-transform:uppercase;color:#8a6a32;margin-bottom:10px;">Key Reminder</div>
+    <div style="font-family:var(--serif);font-size:32px;color:var(--emerald2);">Faith plants the seed. Good deeds make it grow.</div>
+  </div>
+</section>
+
+<section data-label="12 Closing" data-screen-label="12 Closing" data-speaker-notes="Closing slide, a longing dua for Paradise."
+  style="width:100%;height:100%;background:radial-gradient(circle at 50% -10%, var(--emerald) 0%, var(--night) 55%, var(--night2) 100%);font-family:var(--sans);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+  <div class="rays"></div>
+  <div class="motes"></div>
+  <div style="position:relative;z-index:2;font-family:var(--serif);font-size:54px;font-style:italic;color:#fff;text-align:center;max-width:1300px;line-height:1.5;">"Our Lord, grant us in this world good, and in the Hereafter good, and protect us from the punishment of the Fire."</div>
+  <div style="position:relative;z-index:2;font-size:24px;color:var(--gold);letter-spacing:1px;margin-top:26px;">Surah Al-Baqarah · 2:201</div>
+</section>
+
+</x-import>
+</x-dc>
+<script>
+(() => {
+  const hideRail = setInterval(() => {
+    const deck = document.querySelector('deck-stage');
+    if (!deck) return;
+    deck.setAttribute('no-rail', '');
+    clearInterval(hideRail);
+  }, 100);
+  const activeSlide = () => document.querySelector('section[data-deck-active]');
+  const buildItems = (slide) => slide ? Array.from(slide.querySelectorAll('.pd-build')) : [];
+  const showNext = (slide) => {
+    const next = buildItems(slide).find((el) => !el.classList.contains('pd-build-shown'));
+    if (!next) return false;
+    next.classList.add('pd-build-shown');
+    return true;
+  };
+  const hideLast = (slide) => {
+    const shown = buildItems(slide).filter((el) => el.classList.contains('pd-build-shown'));
+    if (!shown.length) return false;
+    shown[shown.length - 1].classList.remove('pd-build-shown');
+    return true;
+  };
+  window.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const slide = activeSlide();
+    if (!slide || !buildItems(slide).length) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Spacebar') {
+      if (showNext(slide)) { e.preventDefault(); e.stopPropagation(); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      if (hideLast(slide)) { e.preventDefault(); e.stopPropagation(); }
+    }
+  }, true);
+  const INTERACTIVE_SEL = 'button,a,input,textarea,select,image-slot,[contenteditable]';
+  window.addEventListener('click', (e) => {
+    const slide = activeSlide();
+    if (!slide || !buildItems(slide).length) return;
+    if (e.composedPath().some((n) => n.matches && n.matches(INTERACTIVE_SEL))) return;
+    if (!slide.contains(e.target)) return;
+    const mid = window.innerWidth / 2;
+    const advanced = e.clientX < mid ? hideLast(slide) : showNext(slide);
+    if (advanced) { e.preventDefault(); e.stopPropagation(); }
+  }, true);
+  document.addEventListener('slidechange', (e) => {
+    const slide = e.detail && e.detail.slide;
+    if (!slide) return;
+    buildItems(slide).forEach((el) => el.classList.remove('pd-build-shown'));
+  });
+})();
+</script>
+</body>
+</html>
