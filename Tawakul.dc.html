@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --ink: #1B1F3B;
+    --ink2: #0F1228;
+    --terra: #C97B4A;
+    --sand: #E8D9C5;
+    --gold: #D4A24E;
+    --paper: #F3ECE0;
+    --paper2: #EADCC6;
+    --serif: 'Cambria', 'Bookman Old Style', Georgia, 'Times New Roman', serif;
+    --sans: 'Calibri', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  @keyframes twinkle { 0%,100%{opacity:.35} 50%{opacity:1} }
+  .stars { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+  .stars::before {
+    content:""; position:absolute; top:0; left:0; width:2px; height:2px; border-radius:50%; background:#fff;
+    box-shadow:120px 80px #fff,300px 200px #fff,520px 120px #fff,760px 320px #fff,980px 90px #fff,1180px 240px #fff,1420px 140px #fff,1650px 300px #fff,1820px 100px #fff,200px 440px #fff,640px 520px #fff,1080px 460px #fff,1500px 520px #fff,1750px 470px #fff,80px 640px #fff,420px 700px #fff,900px 760px #fff,1320px 700px #fff,1680px 760px #fff,260px 880px #fff,720px 940px #fff,1140px 900px #fff,1560px 960px #fff,1860px 880px #fff,1000px 640px #fff;
+    animation:twinkle 4s ease-in-out infinite;
+  }
+  .stars::after {
+    content:""; position:absolute; top:0; left:0; width:3px; height:3px; border-radius:50%; background:var(--gold);
+    box-shadow:360px 160px var(--gold),1240px 110px var(--gold),560px 380px var(--gold),1600px 220px var(--gold),840px 600px var(--gold),1480px 740px var(--gold),220px 820px var(--gold),1120px 980px var(--gold),1880px 540px var(--gold),700px 140px var(--gold);
+    animation:twinkle 6s ease-in-out infinite;
+  }
+  .moon { position:relative; border-radius:50%; background:var(--gold); }
+  .moon::after { content:""; position:absolute; top:-10%; left:18%; width:100%; height:100%; border-radius:50%; background:var(--ink); }
+  .tw-build { opacity:0; transform:translateY(16px); transition:opacity .4s ease, transform .4s ease; }
+  .tw-build.tw-build-shown { opacity:1; transform:translateY(0); }
+  @media print { .tw-build { opacity:1 !important; transform:none !important; } }
+  .tw-card { background:#fff; border-radius:14px; padding:26px 32px; box-shadow:0 12px 30px rgba(27,31,59,.07); }
+  .tw-card-title { font-family:var(--serif); font-size:30px; color:var(--ink); margin-bottom:4px; }
+  .tw-card-body { font-size:27px; line-height:1.4; color:#56524a; }
+  .tw-card-line { font-family:var(--serif); font-size:29px; line-height:1.4; color:var(--ink); }
+</style>
+</helmet>
+<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
+
+<section data-label="01 Title" data-screen-label="01 Title" data-speaker-notes="Welcome the class. Today's theme is tawakul — true reliance upon Allah. We'll learn it not as an abstract idea but through a lived example: the Hijrah of the Prophet, peace be upon him, and especially the night in the cave of Thawr."
+  style="width:100%;height:100%;background:linear-gradient(160deg,#1B1F3B 0%,#0F1228 100%);font-family:var(--sans);color:var(--sand);display:flex;align-items:center;overflow:hidden;position:relative;">
+  <div class="stars"></div>
+  <div style="flex:1;padding:0 0 0 130px;position:relative;z-index:2;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;">Islamic Studies · Faith in Practice</div>
+    <div style="font-family:var(--serif);font-size:96px;line-height:1.04;color:#fff;font-weight:700;letter-spacing:-1px;">Tawakul</div>
+    <div style="font-family:var(--serif);font-size:46px;line-height:1.15;color:var(--terra);font-style:italic;margin-top:10px;">True Reliance Upon Allah</div>
+    <div style="width:120px;height:3px;background:var(--gold);margin:38px 0 26px;"></div>
+    <div style="font-size:30px;color:#c4bbac;">Lessons from the Hijrah of the Prophet&nbsp;ﷺ</div>
+  </div>
+  <div style="flex:0 0 620px;height:100%;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;">
+    <div style="position:relative;width:600px;height:800px;border-radius:50% 50% 18px 18px / 44% 44% 18px 18px;overflow:hidden;border:2px solid rgba(212,162,78,.5);box-shadow:0 30px 80px rgba(0,0,0,.5);">
+      <img src="./assets/desert-path.jpg" alt="Desert path at sunset" style="width:100%;height:100%;display:block;object-fit:cover;">
+    </div>
+  </div>
+</section>
+
+<section data-label="02 What Is It" data-screen-label="02 What Is It" data-speaker-notes="Define tawakkul on three levels. Linguistically, the root w-k-l means to entrust a matter to someone capable of taking care of it. Al-Wakil is one of Allah's names — the Perfect Trustee and Disposer of Affairs. Tawakkul itself is entrusting your affairs to Allah while relying upon Him completely."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1;padding:96px 130px 80px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:18px;">The Meaning</div>
+    <h1 style="font-family:var(--serif);font-size:66px;font-weight:700;margin:0 0 34px;color:var(--ink);">What Is Tawakkul?</h1>
+    <div style="display:flex;flex-direction:column;gap:20px;width:100%;max-width:1000px;">
+      <div class="tw-build tw-card">
+        <div class="tw-card-title">Root: <span dir="rtl">و ك ل</span></div>
+        <div class="tw-card-body">To entrust a matter to someone capable of taking care of it.</div>
+      </div>
+      <div class="tw-build tw-card">
+        <div class="tw-card-title">Al-Wakīl (<span dir="rtl">الوكيل</span>)</div>
+        <div class="tw-card-body">The Perfect Trustee and Disposer of Affairs.</div>
+      </div>
+      <div class="tw-build tw-card">
+        <div class="tw-card-title">Tawakkul</div>
+        <div class="tw-card-body">Entrusting your affairs to Allah while relying upon Him completely.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-label="03 The Beginning" data-screen-label="03 The Beginning" data-speaker-notes="Set up the start of the Hijrah. Allah granted the Prophet permission to migrate to Madinah. The leaders of Quraysh, alarmed at the growth of Islam, decided to assassinate him. Armed men surrounded his home that night and waited for morning to strike."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1;padding:90px 130px 80px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:14px;">Setting the Scene · 622 CE</div>
+    <h1 style="font-family:var(--serif);font-size:60px;font-weight:700;margin:0 0 28px;color:var(--ink);">The Beginning of the Hijrah</h1>
+    <div style="display:flex;flex-direction:column;gap:18px;width:100%;max-width:1000px;">
+      <div class="tw-build tw-card"><div class="tw-card-line">Allah granted the Prophet&nbsp;ﷺ permission to migrate to Madinah.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">The leaders of Quraysh decided to assassinate him.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">Armed men surrounded his home and waited for morning.</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-label="04 The Escape" data-screen-label="04 The Escape" data-speaker-notes="Walk through the escape itself. Ali ibn Abi Talib stayed behind, sleeping in the Prophet's bed to delay the attackers. The Prophet slipped out during the night and went to Abu Bakr's home. Rather than heading straight north toward Madinah, the obvious route, they deliberately travelled south first."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1.1;padding:90px 60px 80px 130px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:14px;">Leaving Makkah</div>
+    <h1 style="font-family:var(--serif);font-size:62px;font-weight:700;margin:0 0 28px;color:var(--ink);">The Escape</h1>
+    <div style="display:flex;flex-direction:column;gap:18px;max-width:760px;">
+      <div class="tw-build tw-card"><div class="tw-card-line">Ali ibn Abi Talib slept in the Prophet's&nbsp;ﷺ bed.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">The Prophet&nbsp;ﷺ left during the night and went to Abu Bakr's home.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">Instead of traveling north toward Madinah, they traveled south.</div></div>
+    </div>
+  </div>
+  <div style="flex:0.9;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#E8D9C5,#EADCC6);overflow:hidden;">
+    <div style="position:relative;width:540px;height:740px;border-radius:50% 50% 16px 16px / 46% 46% 16px 16px;overflow:hidden;border:2px solid rgba(201,123,74,.45);box-shadow:0 24px 60px rgba(27,31,59,.22);">
+      <img src="./assets/kaaba-night.jpg" alt="The Kaaba at night" style="width:100%;height:100%;display:block;object-fit:cover;">
+    </div>
+  </div>
+</section>
+
+<section data-label="05 Cave of Thawr" data-screen-label="05 Cave of Thawr" data-speaker-notes="They headed south to the cave of Thawr, not north toward Madinah. Search parties combed the area looking for them. They stayed hidden inside the cave for three days before continuing the journey."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1.1;padding:90px 60px 80px 130px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:14px;">Three Days in Hiding</div>
+    <h1 style="font-family:var(--serif);font-size:62px;font-weight:700;margin:0 0 28px;color:var(--ink);">The Cave of Thawr</h1>
+    <div style="display:flex;flex-direction:column;gap:18px;max-width:760px;">
+      <div class="tw-build tw-card"><div class="tw-card-line">They planned to travel south to the Cave of Thawr.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">Search parties were looking for them throughout the area.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">They remained hidden there for three days.</div></div>
+    </div>
+  </div>
+  <div style="flex:0.9;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#E8D9C5,#EADCC6);overflow:hidden;">
+    <div style="position:relative;width:540px;height:740px;border-radius:50% 50% 16px 16px / 46% 46% 16px 16px;overflow:hidden;border:2px solid rgba(201,123,74,.45);box-shadow:0 24px 60px rgba(27,31,59,.22);">
+      <img src="./assets/cave-entrance.jpg" alt="Cave entrance at sunset" style="width:100%;height:100%;display:block;object-fit:cover;object-position:5% 30%;">
+    </div>
+  </div>
+</section>
+
+<section data-label="06 Taking the Means" data-screen-label="06 Taking the Means" data-speaker-notes="Highlight the real, practical means taken even while in hiding. Asma bint Abi Bakr brought food. Her brother Abdullah brought news from Makkah. Amir ibn Fuhayrah covered their tracks with his flock. And a skilled guide was arranged for the next stage of the journey. None of this was passive waiting."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1;padding:90px 130px 70px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:14px;">Taking the Means</div>
+    <h1 style="font-family:var(--serif);font-size:60px;font-weight:700;margin:0 0 26px;color:var(--ink);">Taking the Means</h1>
+    <div style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:1000px;">
+      <div class="tw-build tw-card"><div class="tw-card-line">Asma bint Abi Bakr brought food.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">Abdullah ibn Abi Bakr brought news from Makkah.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">Amir ibn Fuhayrah covered tracks with his flock.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">A skilled guide was arranged for the next stage of the journey.</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-label="07 The Moment of Tawakkul" data-screen-label="07 The Moment" data-speaker-notes="The pivotal exchange inside the cave. Abu Bakr feared for the Prophet, not himself: if one of them looked down, they would be seen. The Prophet's reply captures tawakkul in a single line — a calm, total trust in spite of real danger. Reported in Bukhari and Muslim."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 130px;overflow:hidden;position:relative;">
+  <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:30px;">Inside the Cave of Thawr</div>
+  <div class="tw-build" style="max-width:1300px;text-align:center;margin-bottom:30px;">
+    <div style="font-family:var(--serif);font-size:26px;color:var(--terra);margin-bottom:10px;">Abu Bakr said:</div>
+    <p style="font-family:var(--serif);font-size:40px;font-style:italic;line-height:1.45;color:var(--ink);margin:0;">"If one of them were to look down at his feet, he would see us."</p>
+  </div>
+  <div class="tw-build" style="max-width:1300px;text-align:center;margin-bottom:36px;">
+    <div style="font-family:var(--serif);font-size:26px;color:var(--terra);margin-bottom:10px;">The Prophet&nbsp;ﷺ replied:</div>
+    <p style="font-family:var(--serif);font-weight:700;font-size:50px;line-height:1.25;color:var(--ink);margin:0;">"What do you think of two, the third of whom is Allah?"</p>
+  </div>
+  <div style="font-size:26px;color:#7a7468;letter-spacing:1px;">Sahih al-Bukhari, Sahih Muslim</div>
+</section>
+
+<section data-label="08 Confirmed in the Quran" data-screen-label="08 Quran" data-speaker-notes="The Qur'an confirms this exact moment in Surah At-Tawbah 9:40 — Allah is with us. Revelation itself testifies to the trust held in that cave."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 130px;overflow:hidden;position:relative;">
+  <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:30px;">Confirmed in the Qur'an</div>
+  <p style="font-family:var(--serif);font-size:54px;font-style:italic;line-height:1.45;text-align:center;color:var(--ink);margin:0 0 28px;max-width:1180px;">"Do not grieve; indeed Allah is with us."</p>
+  <div style="font-size:26px;color:#7a7468;letter-spacing:1px;">Surah At-Tawbah · 9:40</div>
+</section>
+
+<section data-label="09 A Commonly Told Detail" data-screen-label="09 Commonly Told" data-speaker-notes="Mention the widely told detail of the spider's web and nesting doves at the cave entrance. The searchers, seeing the undisturbed web and nest, assumed no one could be inside and moved on."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1.1;padding:90px 60px 80px 130px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:14px;">A Detail Often Told</div>
+    <h1 style="font-family:var(--serif);font-size:56px;font-weight:700;margin:0 0 28px;color:var(--ink);">A Commonly Told Detail</h1>
+    <div style="display:flex;flex-direction:column;gap:18px;max-width:780px;">
+      <div class="tw-build tw-card"><div class="tw-card-line">A spider quickly spun a web across the entrance of the cave.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">Two doves nested nearby and laid eggs.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">When the searchers arrived, they assumed no one could be inside and moved on.</div></div>
+    </div>
+  </div>
+  <div style="flex:0.9;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#E8D9C5,#EADCC6);overflow:hidden;">
+    <div style="position:relative;width:540px;height:740px;border-radius:50% 50% 16px 16px / 46% 46% 16px 16px;overflow:hidden;border:2px solid rgba(201,123,74,.45);box-shadow:0 24px 60px rgba(27,31,59,.22);">
+      <img src="./assets/spider-doves.jpg" alt="Spider web and doves at a cave entrance" style="width:100%;height:100%;display:block;object-fit:cover;object-position:85% 45%;">
+    </div>
+  </div>
+</section>
+
+<section data-label="10 Suraqa's Pursuit" data-screen-label="10 Suraqa" data-speaker-notes="Tell Suraqa's story. He pursued them alone, hoping to claim the bounty. Each time he closed in, his horse stumbled and sank into the ground. He read it as a sign that Allah was protecting the Prophet, abandoned the chase, and turned back."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;overflow:hidden;position:relative;">
+  <div style="flex:1.1;padding:90px 60px 70px 130px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:14px;">On the Road to Madinah</div>
+    <h1 style="font-family:var(--serif);font-size:62px;font-weight:700;margin:0 0 26px;color:var(--ink);">Suraqa's Pursuit</h1>
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:780px;">
+      <div class="tw-build tw-card"><div class="tw-card-line">Suraqa ibn Malik pursued them hoping to claim the reward.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">Each time he approached, his horse stumbled and sank into the ground.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">He realized Allah was protecting the Prophet&nbsp;ﷺ.</div></div>
+      <div class="tw-build tw-card"><div class="tw-card-line">He abandoned the chase and turned back.</div></div>
+    </div>
+  </div>
+  <div style="flex:0.9;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#E8D9C5,#EADCC6);overflow:hidden;">
+    <div style="position:relative;width:540px;height:740px;border-radius:50% 50% 16px 16px / 46% 46% 16px 16px;overflow:hidden;border:2px solid rgba(201,123,74,.45);box-shadow:0 24px 60px rgba(27,31,59,.22);">
+      <img src="./assets/suraqa-pursuit.jpg" alt="A horseman pursuing through the desert" style="width:100%;height:100%;display:block;object-fit:cover;object-position:25% 55%;">
+    </div>
+  </div>
+</section>
+
+<section data-label="11 What the Hijrah Teaches" data-screen-label="11 Teaches" data-speaker-notes="Step back and name the lesson directly. The Prophet took every means available to him. Trusting Allah never guaranteed an easy path. And in the end, the outcome itself was left to Allah."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 130px;overflow:hidden;position:relative;">
+  <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:18px;">What the Story Teaches</div>
+  <h1 style="font-family:var(--serif);font-size:54px;font-weight:700;margin:0 0 36px;color:var(--ink);text-align:center;">What the Hijrah Teaches About Tawakkul</h1>
+  <div style="display:flex;flex-direction:column;gap:18px;width:100%;max-width:1100px;">
+    <div class="tw-build tw-card" style="text-align:center;"><div class="tw-card-line">The Prophet&nbsp;ﷺ took the means.</div></div>
+    <div class="tw-build tw-card" style="text-align:center;"><div class="tw-card-line">Trusting Allah does not guarantee an easy path.</div></div>
+    <div class="tw-build tw-card" style="text-align:center;"><div class="tw-card-line">The outcome was left to Allah.</div></div>
+  </div>
+</section>
+
+<section data-label="12 The Hadith of the Bird" data-screen-label="12 The Bird" data-speaker-notes="Seal the balance with the hadith of the bird. A bird leaves its nest hungry every morning and returns full every evening — but it still goes out and searches. The same union of means and trust we saw across the whole Hijrah, in a single image."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 130px;overflow:hidden;position:relative;">
+  <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:30px;">A Hadith to Remember</div>
+  <p style="font-family:var(--serif);font-size:42px;font-style:italic;line-height:1.45;text-align:center;color:var(--ink);margin:0 0 18px;max-width:1200px;">"If you were to rely upon Allah with the reliance He deserves, He would provide for you as He provides for the birds."</p>
+  <div style="font-size:26px;color:#7a7468;letter-spacing:1px;margin-bottom:40px;">Source: Jami' at-Tirmidhi</div>
+  <div style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:900px;">
+    <div class="tw-build tw-card" style="text-align:center;"><div class="tw-card-line">They leave hungry in the morning.</div></div>
+    <div class="tw-build tw-card" style="text-align:center;"><div class="tw-card-line">They return full in the evening.</div></div>
+    <div class="tw-build tw-card" style="text-align:center;"><div class="tw-card-line">The bird trusts Allah — but it still leaves the nest.</div></div>
+  </div>
+</section>
+
+<section data-label="13 Applying Tawakkul Today" data-screen-label="13 Applying" data-speaker-notes="End on application. Take the means available to you, make dua and seek guidance, then trust Allah with the outcome. Avoid the two extremes of relying only on your own effort or using trust as an excuse not to act. Close with the key reminder: control your effort, trust Allah with the result."
+  style="width:100%;height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);display:flex;flex-direction:column;padding:84px 130px 70px;overflow:hidden;position:relative;">
+  <div style="font-family:var(--sans);font-size:24px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);margin-bottom:14px;">Putting It Into Practice</div>
+  <h1 style="font-family:var(--serif);font-size:58px;font-weight:700;margin:0 0 30px;color:var(--ink);">Applying Tawakkul Today</h1>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:900px;margin:0 auto;width:100%;">
+    <div class="tw-build tw-card"><div class="tw-card-line">Take the means.</div></div>
+    <div class="tw-build tw-card"><div class="tw-card-line">Make du'ā and seek guidance.</div></div>
+    <div class="tw-build tw-card"><div class="tw-card-line">Trust Allah with the outcome.</div></div>
+    <div class="tw-build tw-card"><div class="tw-card-line">Avoid two extremes.</div></div>
+  </div>
+  <div style="margin-top:30px;background:var(--sand);border:1px solid rgba(212,162,78,.5);border-radius:16px;padding:28px 40px;max-width:900px;margin-left:auto;margin-right:auto;text-align:center;">
+    <div style="font-family:var(--sans);font-size:22px;letter-spacing:3px;text-transform:uppercase;color:#8a6a4a;margin-bottom:10px;">Key Reminder</div>
+    <div style="font-family:var(--serif);font-size:32px;color:var(--ink);">Control your effort. Trust Allah with the result.</div>
+  </div>
+</section>
+
+<section data-label="14 We Just Want to Say" data-screen-label="14 We Just Want to Say" data-speaker-notes="A heartfelt transition slide."
+  style="width:100%;height:100%;background:linear-gradient(160deg,#1B1F3B 0%,#0F1228 100%);font-family:var(--sans);color:var(--sand);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+  <div class="stars"></div>
+  <div style="position:relative;z-index:2;font-family:var(--serif);font-size:70px;font-style:italic;color:#fff;text-align:center;max-width:1300px;">We just want to say&hellip;</div>
+</section>
+
+<section data-label="15 To Our Abo" data-screen-label="15 To Our Abo" data-speaker-notes="A heartfelt transition slide."
+  style="width:100%;height:100%;background:linear-gradient(160deg,#1B1F3B 0%,#0F1228 100%);font-family:var(--sans);color:var(--sand);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+  <div class="stars"></div>
+  <div style="position:relative;z-index:2;font-family:var(--serif);font-size:84px;font-weight:700;color:#fff;text-align:center;max-width:1300px;">To our Abo</div>
+</section>
+
+<section data-label="16 Happy Father's Day" data-screen-label="16 Happy Father's Day" data-speaker-notes="The closing slide with the family photo."
+  style="width:100%;height:100%;background:linear-gradient(160deg,#1B1F3B 0%,#0F1228 100%);font-family:var(--sans);color:var(--sand);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;padding:60px 0;">
+  <div class="stars"></div>
+  <div style="position:relative;z-index:2;width:560px;height:560px;border-radius:24px;overflow:hidden;border:2px solid rgba(212,162,78,.5);box-shadow:0 30px 80px rgba(0,0,0,.5);margin-bottom:40px;">
+    <img src="./assets/family-photo.jpeg" alt="Our family" style="width:100%;height:100%;display:block;object-fit:cover;">
+  </div>
+  <div style="position:relative;z-index:2;font-family:var(--serif);font-size:62px;font-weight:700;color:#fff;text-align:center;">Happy Father's Day.</div>
+  <div style="position:relative;z-index:2;font-family:var(--serif);font-size:46px;font-style:italic;color:var(--terra);text-align:center;margin-top:10px;">We love you.</div>
+</section>
+
+</x-import>
+</x-dc>
+<script>
+(() => {
+  const hideRail = setInterval(() => {
+    const deck = document.querySelector('deck-stage');
+    if (!deck) return;
+    deck.setAttribute('no-rail', '');
+    clearInterval(hideRail);
+  }, 100);
+  const activeSlide = () => document.querySelector('section[data-deck-active]');
+  const buildItems = (slide) => slide ? Array.from(slide.querySelectorAll('.tw-build')) : [];
+  const showNext = (slide) => {
+    const next = buildItems(slide).find((el) => !el.classList.contains('tw-build-shown'));
+    if (!next) return false;
+    next.classList.add('tw-build-shown');
+    return true;
+  };
+  const hideLast = (slide) => {
+    const shown = buildItems(slide).filter((el) => el.classList.contains('tw-build-shown'));
+    if (!shown.length) return false;
+    shown[shown.length - 1].classList.remove('tw-build-shown');
+    return true;
+  };
+  window.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const slide = activeSlide();
+    if (!slide || !buildItems(slide).length) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Spacebar') {
+      if (showNext(slide)) { e.preventDefault(); e.stopPropagation(); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      if (hideLast(slide)) { e.preventDefault(); e.stopPropagation(); }
+    }
+  }, true);
+  const INTERACTIVE_SEL = 'button,a,input,textarea,select,image-slot,[contenteditable]';
+  window.addEventListener('click', (e) => {
+    const slide = activeSlide();
+    if (!slide || !buildItems(slide).length) return;
+    if (e.composedPath().some((n) => n.matches && n.matches(INTERACTIVE_SEL))) return;
+    if (!slide.contains(e.target)) return;
+    const mid = window.innerWidth / 2;
+    const advanced = e.clientX < mid ? hideLast(slide) : showNext(slide);
+    if (advanced) { e.preventDefault(); e.stopPropagation(); }
+  }, true);
+  document.addEventListener('slidechange', (e) => {
+    const slide = e.detail && e.detail.slide;
+    if (!slide) return;
+    buildItems(slide).forEach((el) => el.classList.remove('tw-build-shown'));
+  });
+})();
+</script>
+</body>
+</html>
