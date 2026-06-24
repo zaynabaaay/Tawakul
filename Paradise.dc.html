@@ -22,10 +22,8 @@
   body { background: var(--night2); font-family: var(--sans); overflow-x: hidden; scroll-behavior: smooth; }
 
   @keyframes shimmer { 0%,100%{opacity:.25} 50%{opacity:.85} }
-  @keyframes drift { 0%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-22px) translateX(10px)} 100%{transform:translateY(0) translateX(0)} }
-  @keyframes flow { 0%{background-position:0 0} 100%{background-position:400px 0} }
 
-  .bg-fixed { position:fixed; inset:0; z-index:0; pointer-events:none; }
+  .bg-fixed { position:fixed; inset:0; z-index:0; pointer-events:none; will-change:transform; }
   .rays::before {
     content:""; position:absolute; top:-20%; left:50%; width:1400px; height:1400px; transform:translateX(-50%);
     background:radial-gradient(circle at 50% 0%, rgba(227,184,92,.30), rgba(227,184,92,0) 60%);
@@ -34,7 +32,6 @@
   .motes::before {
     content:""; position:absolute; width:6px; height:6px; border-radius:50%; background:var(--gold); opacity:.65;
     box-shadow:8vw 12vh var(--gold),24vw 30vh var(--gold),42vw 9vh var(--gold),58vw 34vh var(--gold),70vw 18vh var(--gold),84vw 28vh var(--gold),95vw 11vh var(--gold),14vw 50vh var(--gold),32vw 58vh var(--gold),52vw 52vh var(--gold),74vw 58vh var(--gold),92vw 50vh var(--gold),20vw 78vh var(--gold),46vw 84vh var(--gold),66vw 80vh var(--gold),88vw 86vh var(--gold);
-    animation:drift 7s ease-in-out infinite;
   }
 
   section { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:90px 8vw; z-index:1; overflow:hidden; }
@@ -56,14 +53,9 @@
   .card { background:rgba(244,236,216,.96); border-radius:14px; padding:24px 30px; box-shadow:0 12px 30px rgba(3,20,18,.25); text-align:center; }
   .card-line { font-family:var(--serif); font-size:clamp(22px,2.2vw,28px); line-height:1.4; color:var(--emerald2); }
 
-  .reveal { opacity:0; transform:translateY(36px); transition:opacity .8s ease, transform .8s ease; }
-  .reveal.in { opacity:1; transform:translateY(0); }
-  .stack .card:nth-child(1) { transition-delay:0s; }
-  .stack .card:nth-child(2) { transition-delay:.12s; }
-  .stack .card:nth-child(3) { transition-delay:.24s; }
-  .stack .card:nth-child(4) { transition-delay:.36s; }
+  .reveal { opacity:0; transform:translateY(48px) scale(.97); will-change:opacity, transform; }
 
-  .river { position:absolute; left:0; right:0; bottom:0; height:140px; background:linear-gradient(90deg, rgba(127,216,201,.18), rgba(127,216,201,.45), rgba(127,216,201,.18)); background-size:400px 100%; animation:flow 6s linear infinite; }
+  .river { position:absolute; left:0; right:0; bottom:0; height:140px; background:linear-gradient(90deg, rgba(127,216,201,.18), rgba(127,216,201,.45), rgba(127,216,201,.18)); background-size:400px 100%; will-change:background-position; }
 
   .keyline { margin-top:30px; background:rgba(227,184,92,.18); border:1px solid rgba(227,184,92,.5); border-radius:16px; padding:26px 38px; max-width:900px; text-align:center; }
   .keyline-label { font-family:var(--sans); font-size:20px; letter-spacing:3px; text-transform:uppercase; color:#8a6a32; margin-bottom:10px; }
@@ -193,20 +185,52 @@
 
 <script>
 (() => {
-  const progress = document.getElementById('progress');
-  const onScroll = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  const progressBar = document.getElementById('progress');
+  const reveals = Array.from(document.querySelectorAll('.reveal')).map((el, i) => {
+    const stackIndex = Array.from(el.parentElement.children).indexOf(el);
+    return { el, stagger: el.classList.contains('card') ? stackIndex * 0.06 : 0 };
+  });
+  const rays = Array.from(document.querySelectorAll('.rays'));
+  const motes = Array.from(document.querySelectorAll('.motes'));
+  const river = document.querySelector('.river');
 
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) entry.target.classList.add('in');
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+  let ticking = false;
+
+  const update = () => {
+    ticking = false;
+    const scrollY = window.scrollY;
+    const vh = window.innerHeight;
+    const max = document.documentElement.scrollHeight - vh;
+    progressBar.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%';
+
+    rays.forEach((el) => { el.style.transform = `translateY(${scrollY * -0.08}px)`; });
+    motes.forEach((el) => { el.style.transform = `translateY(${scrollY * 0.12}px)`; });
+    if (river) river.style.backgroundPosition = `${scrollY * 0.4}px 0`;
+
+    reveals.forEach(({ el, stagger }) => {
+      const rect = el.getBoundingClientRect();
+      const total = vh + rect.height;
+      let p = clamp((vh - rect.top) / total - stagger, 0, 1);
+      p = clamp(p / 0.7, 0, 1);
+      const eased = easeOutCubic(p);
+      el.style.opacity = eased;
+      el.style.transform = `translateY(${(1 - eased) * 48}px) scale(${0.97 + eased * 0.03})`;
     });
-  }, { threshold: 0.25 });
-  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  };
+
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
 })();
 </script>
 </body>
