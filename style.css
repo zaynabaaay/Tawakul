@@ -1,0 +1,392 @@
+/* ============================================================
+   Jannah — Part One: cinematic scrollytelling
+   Architecture: each <section class="scene"> is taller than the
+   viewport (130vh). Inside, .bg-sticky is `position: sticky; top:0;
+   height:100vh` — it pins to the screen for the scene's duration,
+   then releases as the next scene's sticky bg becomes active,
+   producing a soft crossfade instead of a hard cut.
+
+   IMPORTANT: do not add `overflow` (other than visible) to any
+   ANCESTOR of .bg-sticky — that silently breaks position:sticky on
+   iOS/Chrome (learned the hard way). overflow:hidden ON .bg-sticky
+   itself is fine; it's only ancestors that break it.
+   ============================================================ */
+
+:root {
+  --gold: #c9a84c;
+  --ink: #fdfaf2;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #0a0908;
+}
+
+body {
+  font-family: 'EB Garamond', serif;
+  color: var(--ink);
+}
+
+html { overflow-x: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- Scene scaffold ---------- */
+
+.scene {
+  position: relative;
+  height: 130vh;
+}
+
+.scene:last-of-type {
+  height: 100vh;
+}
+
+.bg-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+/* ---------- Ambient overlay (time-based, never stops) ---------- */
+
+.ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+
+/* ---------- Scrim — legibility layer behind text ---------- */
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scrim-soft {
+  background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.32) 60%, rgba(0,0,0,0.5) 100%);
+}
+
+.scrim-medium {
+  background: radial-gradient(ellipse 70% 55% at 50% 55%, rgba(8,6,4,0.62) 0%, rgba(8,6,4,0.28) 55%, rgba(8,6,4,0.15) 100%);
+}
+
+.scrim-strong {
+  background: radial-gradient(ellipse 75% 60% at 50% 58%, rgba(20,14,4,0.78) 0%, rgba(20,14,4,0.46) 55%, rgba(20,14,4,0.22) 100%);
+}
+
+/* ---------- Content ---------- */
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  width: 100%;
+  padding: 0 6vw;
+  text-align: center;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.6);
+}
+
+.content.narrow {
+  max-width: 600px;
+}
+
+.ar {
+  font-family: 'Amiri Quran', 'Amiri', serif;
+  font-size: clamp(1.5rem, 3.6vw, 2.4rem);
+  line-height: 2.05;
+  direction: rtl;
+  margin: 0.7em auto 1em;
+  max-width: 92%;
+}
+
+.headline {
+  font-family: 'EB Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  margin: 0 0 0.7em;
+}
+
+.headline.small {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  opacity: 0.85;
+  margin-bottom: 0.2em;
+}
+
+.en {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  line-height: 1.7;
+  margin: 0.5em 0;
+}
+
+.en.lone {
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-style: italic;
+  line-height: 1.8;
+  max-width: 540px;
+  margin: 0.8em auto;
+}
+
+.beats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  margin: 1em 0;
+}
+
+.caption {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: var(--gold);
+  opacity: 0.9;
+  letter-spacing: 0.04em;
+  margin-top: 1.6em;
+}
+
+/* ---------- Hero ---------- */
+
+.hero-content { text-align: center; }
+
+.hero-ar {
+  font-size: clamp(3rem, 9vw, 6rem);
+  margin-bottom: 0.2em;
+}
+
+.hero-title {
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin: 0.2em 0;
+}
+
+.hero-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  margin: 0.4em 0 1.4em;
+}
+
+.hero-teaser {
+  font-style: italic;
+  font-size: 1.05rem;
+  opacity: 0.9;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.scroll-cue {
+  margin-top: 3em;
+}
+
+.scroll-cue span {
+  display: inline-block;
+  width: 1px;
+  height: 40px;
+  background: var(--gold);
+  opacity: 0.7;
+  animation: cue-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes cue-pulse {
+  0%, 100% { opacity: 0.2; transform: scaleY(0.6); }
+  50% { opacity: 0.85; transform: scaleY(1); }
+}
+
+/* ---------- Big number (1.4) ---------- */
+
+.big-number {
+  font-family: 'EB Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(4rem, 13vw, 7.5rem);
+  color: var(--gold);
+  margin: 0.1em 0 0.3em;
+  line-height: 1;
+  text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+}
+
+.big-number .unit {
+  display: block;
+  font-size: 0.2em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  color: var(--ink);
+  opacity: 0.85;
+  margin-top: 0.3em;
+}
+
+/* ---------- Reveal (scroll-triggered fade/rise) ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: opacity 0.5s ease;
+    transform: none !important;
+  }
+  .bg-img, .ambient { animation: none !important; }
+}
+
+/* ============================================================
+   Ken Burns — continuous camera drift, distinct per scene.
+   Runs independently of scroll; never sits still.
+   ============================================================ */
+
+.kb-1 {
+  animation: kb1 26s ease-in-out infinite alternate;
+  transform-origin: 42% 60%;
+}
+@keyframes kb1 {
+  0%   { transform: scale(1.0) translate(0, 0); }
+  100% { transform: scale(1.08) translate(-1.2%, -1.5%); }
+}
+
+.kb-2 {
+  animation: kb2 30s ease-in-out infinite alternate;
+  transform-origin: 55% 40%;
+}
+@keyframes kb2 {
+  0%   { transform: scale(1.0) translate(0, 0); }
+  100% { transform: scale(1.07) translate(1.5%, 1%); }
+}
+
+.kb-3 {
+  animation: kb3 24s ease-in-out infinite alternate;
+  transform-origin: 50% 30%;
+}
+@keyframes kb3 {
+  0%   { transform: scale(1.0) translate(0, 0); }
+  100% { transform: scale(1.06) translate(-1%, 1.4%); }
+}
+
+.kb-4 {
+  animation: kb4 28s ease-in-out infinite alternate;
+  transform-origin: 50% 75%;
+}
+@keyframes kb4 {
+  0%   { transform: scale(1.0) translate(0, 0); }
+  100% { transform: scale(1.1) translate(0.8%, -1.8%); }
+}
+
+.kb-5 {
+  animation: kb5 22s ease-in-out infinite alternate;
+  transform-origin: 50% 50%;
+}
+@keyframes kb5 {
+  0%   { transform: scale(1.0); }
+  100% { transform: scale(1.05); }
+}
+
+/* ============================================================
+   Ambient layers — subtle, time-based "breathing" per scene.
+   ============================================================ */
+
+.amb-1 {
+  background: radial-gradient(ellipse 40% 25% at 30% 70%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 70%);
+  animation: shimmer1 18s ease-in-out infinite alternate;
+}
+@keyframes shimmer1 {
+  0%   { opacity: 0.25; transform: translateX(0); }
+  100% { opacity: 0.5; transform: translateX(4%); }
+}
+
+.amb-2 {
+  background: radial-gradient(ellipse 55% 35% at 60% 35%, rgba(255,244,214,0.4) 0%, rgba(255,244,214,0) 70%);
+  animation: drift2 25s ease-in-out infinite alternate;
+}
+@keyframes drift2 {
+  0%   { opacity: 0.3; transform: translate(0, 0); }
+  100% { opacity: 0.55; transform: translate(-3%, 2%); }
+}
+
+.amb-3 {
+  background: radial-gradient(circle at 50% 28%, rgba(230,238,255,0.45) 0%, rgba(230,238,255,0) 60%);
+  animation: glow3 16s ease-in-out infinite alternate;
+}
+@keyframes glow3 {
+  0%   { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+
+.amb-4 {
+  background: linear-gradient(100deg, rgba(255,236,180,0.18) 0%, rgba(255,236,180,0) 40%);
+  animation: rays4 20s ease-in-out infinite alternate;
+}
+@keyframes rays4 {
+  0%   { opacity: 0.25; transform: translateX(-2%); }
+  100% { opacity: 0.45; transform: translateX(2%); }
+}
+
+.amb-5 {
+  background: radial-gradient(circle at 50% 45%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 65%);
+  animation: pulse5 14s ease-in-out infinite alternate;
+}
+@keyframes pulse5 {
+  0%   { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+
+/* Twinkling stars — moon scene only */
+
+.stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 28% 8%, #fff, transparent),
+    radial-gradient(1px 1px at 42% 22%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 65% 12%, #fff, transparent),
+    radial-gradient(1px 1px at 78% 25%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 88% 15%, #fff, transparent),
+    radial-gradient(1px 1px at 20% 35%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 55% 30%, #fff, transparent);
+  animation: twinkle 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0%   { opacity: 0.4; }
+  100% { opacity: 0.95; }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 600px) {
+  .scene { height: 145vh; }
+  .scene:last-of-type { height: 100vh; }
+  .ar { line-height: 1.85; }
+}
