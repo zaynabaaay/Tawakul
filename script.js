@@ -33,16 +33,21 @@ function initReveals() {
   });
 }
 
-/* ---------- Crossfade + faked depth (scroll-driven, rAF) ----------
+/* ---------- Faked depth (scroll-driven) ----------
    Each .scene is taller than the viewport; its .bg-sticky pins to
    the screen for the duration. We compute 0->1 progress through
-   that scroll range and use it to:
-   - fade the sticky bg in/out at the edges (soft dissolve between
-     scenes, since the next scene's sticky bg is already pinning in
-     as the current one releases)
-   - on .depth scenes (1.1, 1.4), add an extra scale + vertical drift
-     on top of the ambient Ken Burns, so scrolling feels like moving
-     into the scene
+   that scroll range and use it, on .depth scenes (1.1, 1.4), to add
+   an extra scale + vertical drift on top of the ambient Ken Burns,
+   so scrolling feels like moving into the scene.
+
+   NOTE: an earlier version of this also faded bg-sticky's opacity
+   in/out as a fake crossfade. That doesn't actually work with this
+   sticky-stacking layout: by the time a scene finishes its pinned
+   window, the next scene hasn't started entering the viewport yet
+   (it's still below the fold), so fading the current one to 0 just
+   produced a black gap instead of a dissolve. Removed — the normal
+   scroll handoff between scenes (one sliding away as the next slides
+   in beneath it) already reads as continuous without it.
 ------------------------------------------------------------------ */
 
 function initScroll() {
@@ -52,42 +57,24 @@ function initScroll() {
     isDepth: section.classList.contains('depth'),
   }));
 
-  if (reducedMotion) {
-    scenes.forEach(({ bg }) => { if (bg) bg.style.opacity = 1; });
-    return;
-  }
-
-  const FADE_ZONE = 0.18; // fraction of scene transit spent fading at each edge
+  if (reducedMotion) return;
 
   function update() {
     const viewportH = window.innerHeight;
 
-    scenes.forEach(({ section, bg, isDepth }, i) => {
-      if (!bg) return;
+    scenes.forEach(({ section, bg, isDepth }) => {
+      if (!bg || !isDepth) return;
       const rect = section.getBoundingClientRect();
       const total = rect.height - viewportH;
 
-      let progress;
-      if (total <= 0) {
-        progress = rect.top <= 0 ? 1 : 0;
-      } else {
-        progress = Math.min(1, Math.max(0, -rect.top / total));
-      }
-
-      // Crossfade at the edges of the scene's transit. The first scene has
-      // nothing beneath it to dissolve from, and the last has nothing to
-      // dissolve into, so skip the fade at those outer edges.
-      let fade = 1;
-      if (progress < FADE_ZONE && i > 0) fade = progress / FADE_ZONE;
-      else if (progress > 1 - FADE_ZONE && i < scenes.length - 1) fade = (1 - progress) / FADE_ZONE;
-      bg.style.opacity = fade;
+      const progress = total <= 0
+        ? (rect.top <= 0 ? 1 : 0)
+        : Math.min(1, Math.max(0, -rect.top / total));
 
       // Faked depth: extra push on top of the ambient Ken Burns.
-      if (isDepth) {
-        const depthScale = 1 + progress * 0.05;
-        const depthShift = progress * -2.2; // vh
-        bg.style.transform = `scale(${depthScale}) translateY(${depthShift}vh)`;
-      }
+      const depthScale = 1 + progress * 0.05;
+      const depthShift = progress * -2.2; // vh
+      bg.style.transform = `scale(${depthScale}) translateY(${depthShift}vh)`;
     });
   }
 
