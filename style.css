@@ -1,10 +1,12 @@
 /* ============================================================
    Jannah — Part One: cinematic scrollytelling
-   Architecture: each <section class="scene"> is taller than the
-   viewport (130vh). Inside, .bg-sticky is `position: sticky; top:0;
-   height:100vh` — it pins to the screen for the scene's duration,
-   then releases as the next scene's sticky bg becomes active,
-   producing a soft crossfade instead of a hard cut.
+   Architecture: each <section class="scene"> is exactly one viewport
+   tall (100vh), so scrolling is continuous — no scene holds still or
+   pauses; one flows straight into the next at normal scroll speed.
+   .bg-sticky still uses `position: sticky; top:0; height:100vh`, but
+   with no extra scene height to pin into, it behaves as a normal
+   block; it's kept only as the positioning context the Ken Burns /
+   ambient / depth layers transform against.
 
    IMPORTANT: do not add `overflow` (other than visible) to any
    ANCESTOR of .bg-sticky — that silently breaks position:sticky on
@@ -40,10 +42,6 @@ html { overflow-x: hidden; }
 
 .scene {
   position: relative;
-  height: 130vh;
-}
-
-.scene:last-of-type {
   height: 100vh;
 }
 
@@ -386,7 +384,5 @@ html { overflow-x: hidden; }
 /* ---------- Responsive ---------- */
 
 @media (max-width: 600px) {
-  .scene { height: 145vh; }
-  .scene:last-of-type { height: 100vh; }
   .ar { line-height: 1.85; }
 }
