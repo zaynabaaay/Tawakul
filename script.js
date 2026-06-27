@@ -33,38 +33,44 @@ function initReveals() {
   });
 }
 
-/* ---------- Faked depth (scroll-driven) ----------
-   Scrolling is continuous — every .scene is exactly one viewport tall,
-   so nothing pins or holds still; each scene flows past at normal
-   scroll speed. For .depth scenes (1.1, 1.4) we still want an extra
-   push on top of the ambient Ken Burns so scrolling feels like moving
-   into the scene. Progress is 0 when the scene is just entering at
-   the bottom edge, 1 once it has fully scrolled off the top — smooth
-   across the whole transit, not tied to any pin/dwell window.
+/* ---------- Backdrop crossfade (scroll-driven) ----------
+   Every .scene is exactly one viewport tall, and each .bg-sticky is a
+   `position: fixed` full-bleed layer (not nested under its .scene's
+   text anymore). script.js gives each layer a "home" scroll position
+   — index * viewportH — and fades it in/out as a triangle function of
+   distance from that home position, so the layer ahead is still
+   dissolving out while the next one dissolves in. There's no pin, no
+   hold, no hard cut: the backdrop reads as one continuous scene that
+   morphs as you scroll, recomputed from scrollY on every tick (never
+   frozen at a stale value).
 ------------------------------------------------------------------ */
 
 function initScroll() {
-  const scenes = Array.from(document.querySelectorAll('.scene')).map((section) => ({
-    section,
-    bg: section.querySelector('.bg-sticky'),
-    isDepth: section.classList.contains('depth'),
+  const layers = Array.from(document.querySelectorAll('.bg-sticky')).map((bg, index) => ({
+    bg,
+    index,
+    isDepth: bg.closest('.scene').classList.contains('depth'),
   }));
 
   if (reducedMotion) return;
 
   function update() {
     const viewportH = window.innerHeight;
+    const scrollY = window.scrollY;
 
-    scenes.forEach(({ section, bg, isDepth }) => {
-      if (!bg || !isDepth) return;
-      const rect = section.getBoundingClientRect();
-      const span = viewportH + rect.height;
-      const progress = Math.min(1, Math.max(0, (viewportH - rect.top) / span));
+    layers.forEach(({ bg, index, isDepth }) => {
+      const home = index * viewportH;
+      const local = scrollY - home;
+      const opacity = Math.max(0, 1 - Math.abs(local) / viewportH);
 
-      // Faked depth: extra push on top of the ambient Ken Burns.
-      const depthScale = 1 + progress * 0.05;
-      const depthShift = progress * -2.2; // vh
-      bg.style.transform = `scale(${depthScale}) translateY(${depthShift}vh)`;
+      bg.style.opacity = opacity;
+
+      if (isDepth) {
+        const progress = Math.min(1, Math.max(0, (local + viewportH) / (2 * viewportH)));
+        const depthScale = 1 + progress * 0.05;
+        const depthShift = (progress - 0.5) * -4.4; // vh
+        bg.style.transform = `scale(${depthScale}) translateY(${depthShift}vh)`;
+      }
     });
   }
 
